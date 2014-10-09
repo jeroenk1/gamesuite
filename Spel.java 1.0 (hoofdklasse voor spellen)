@@ -1,0 +1,47 @@
+package gamesuite;
+
+import java.util.ArrayList;
+
+/**
+ * Klasse spel regelt het spelverloop van het specifieke gekozen spel.
+ * Spel is de overkoepelende klasse voor alle spel-instanties die algemene
+ * attributen en methoden overerven.
+ * @author Hedde
+ *
+ */
+
+public class Spel {
+
+	//attributen
+	private static int score = 0;
+	private static String naamSpel = null;
+	private static int hoogteBord = 0;
+	private static int breedteBord = 0;
+	
+	// array maken van spellen die bij 'spel'.start() wordt gestart?
+	
+	private static ArrayList<Spel> spellen = new ArrayList <Spel> ();
+	
+	//constructor
+	public Spel(Spel spelNaam) {
+		
+		//nieuw spel wordt toegevoegd aan ArrayList van beschikbare spellen	
+		spellen.add(spellen.size(), spelNaam);
+	}
+	
+	
+	//public methoden 
+	
+	public void start() {
+		//spel starten, maar hoe
+		
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	
+	
+	
+}
+
