@@ -1,0 +1,292 @@
+package spellen;
+
+import java.awt.*; 
+import java.applet.*; 
+import java.awt.event.*; 
+import gamesuite.Spel;
+/*
+ * geleend van: http://lcinformatica.amsterdams.info/klas6/h18/h18_6.htm
+ * applet --> standalone application: http://www.woodger.ca/jv_appst.htm
+ * 
+ * public class vierOpEenRijSpel extends Applet implements ActionListener 
+*/
+
+public class vierOpEenRijSpel extends Applet implements ActionListener 
+{ 
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+Label lblBeurt;
+  Label lblAantalx;
+  Label lblAantalo;
+  Button btnNieuwspel;
+  Label lblHok[] = new Label[51];
+  Button btnGooi[] = new Button[11];
+  int aantalwinstx;
+  int aantalwinsto;
+  int aantalkeergegooid;
+  int speler;
+  String teken[] = new String[4];
+  int vulling[][] = new int[11][6];
+
+  public void init()
+  {
+    aantalwinstx=0;
+    aantalwinsto=0;
+        
+    aantalkeergegooid=0;
+    speler=1;
+    teken[1]="X";
+    teken[2]="O";
+    teken[3]="X";
+    for (int i=1;i<11;i++)
+    {
+      for (int j=1;i<6;i++)
+      {
+         vulling[i][j]=0;
+      }
+    };
+    setLayout(null);
+    setSize(440,275);
+    setBackground(new Color(50,200,200));
+    lblBeurt = new Label("X is aan de beurt!",Label.CENTER);
+    lblBeurt.setBounds(10,10,140,20);
+    lblBeurt.setFont(new Font("Dialog", Font.BOLD, 14));
+    lblBeurt.setForeground(new Color(255,255,255));
+    lblBeurt.setBackground(new Color(20,20,200));
+    add(lblBeurt);
+    lblAantalx = new Label("Aantal keer dat X won: 0",Label.CENTER);
+    lblAantalx.setBounds(160,10,270,20);
+    lblAantalx.setFont(new Font("Dialog", Font.BOLD, 14));
+    lblAantalx.setForeground(new Color(0));
+    lblAantalx.setBackground(new Color(200,100,50));
+    add(lblAantalx);
+    lblAantalo = new Label("Aantal keer dat O won: 0",Label.CENTER);
+    lblAantalo.setBounds(160,40,270,20);
+    lblAantalo.setFont(new Font("Dialog", Font.BOLD, 14));
+    lblAantalo.setForeground(new Color(0));
+    lblAantalo.setBackground(new Color(200,100,50));
+    add(lblAantalo);
+    btnNieuwspel = new Button("Nieuw spel");
+    btnNieuwspel.setBounds(10,40,140,20);
+    btnNieuwspel.setFont(new Font("Dialog", Font.BOLD, 14));
+    btnNieuwspel.setBackground(new Color(150,150,150));
+    btnNieuwspel.setVisible(false);
+    add(btnNieuwspel);
+    int x=10;
+    int y=80;
+    int k=0;
+    for (int i=1;i<51;i++)
+    {
+      lblHok[i] = new Label("",Label.CENTER);
+      k=(i-1)/5;
+      x=12+42*k;
+      y=70+32*(i-5*k);
+      lblHok[i].setBounds(x,y,40,30);
+      lblHok[i].setFont(new Font("Dialog", Font.BOLD, 20));
+      lblHok[i].setBackground(new Color(255,255,255));
+      add(lblHok[i]);
+    }
+
+    for (int i=1;i<11;i++)
+    {
+      btnGooi[i] = new Button();
+      btnGooi[i].setActionCommand("button");
+      btnGooi[i].setLabel("Gooi");
+      btnGooi[i].setBounds(-30+42*i,70,40,30);
+      btnGooi[i].setFont(new Font("Dialog", Font.BOLD, 12));
+      btnGooi[i].setBackground(new Color(150,150,150));
+      add(btnGooi[i]);
+    } 
+
+  btnNieuwspel.addActionListener(this);
+  for (int i=1;i<11;i++)
+  {
+    btnGooi[i].addActionListener(this);
+  }
+  }
+
+    public void actionPerformed(ActionEvent e)
+    {
+       if (e.getSource() == btnNieuwspel) btnNieuwspel_Action();
+       for (int i=1;i<11;i++)
+       {
+         if (e.getSource() == btnGooi[i]) btnGooi_Action(i);
+       }
+    }
+
+  void btnNieuwspel_Action()
+  {
+     aantalkeergegooid=0;
+     speler=speler+1;
+     if (speler==3) speler=1;
+     for (int i=1;i<11;i++)
+     {
+       for (int j=1;j<6;j++)
+       {
+         vulling[i][j]=0;
+       }
+     } 
+
+     Color wit=new Color(255,255,255);       
+     for (int i=1;i<51;i++)
+     {
+       lblHok[i].setText("");
+       lblHok[i].setBackground (wit);
+     }
+     lblBeurt.setText(teken[speler]+" is aan de beurt");
+     btnNieuwspel.setVisible(false);
+     for (int k=1;k<11;k++)
+     {
+       btnGooi[k].setEnabled(true);
+     };
+  }
+
+  boolean controleer()
+  {
+    boolean uitslag=false;
+    Color geel=new Color(255,255,0);
+
+    for (int kolom = 1;kolom<11;kolom++)
+    {
+       for (int j = 1;j<3;j++)
+       {
+         if (
+            (vulling[kolom][j] == speler) &&
+            (vulling[kolom][j + 1] == speler) &&
+            (vulling[kolom][j + 2] == speler) && 
+            (vulling[kolom][j + 3] == speler)
+            ) 
+            {
+               uitslag = true;
+               lblHok[kolom  * 5 - j + 1].setBackground (geel);
+               lblHok[kolom  * 5 - j].setBackground (geel);
+               lblHok[kolom  * 5 - j - 1].setBackground (geel);
+               lblHok[kolom  * 5 - j - 2].setBackground (geel);
+               break;
+            }
+       }
+    }
+
+    for (int rij = 1;rij<6;rij++)
+    {
+      for (int j = 1;j<8;j++)
+      {
+         if (
+            (vulling[j][rij] == speler) &&
+            (vulling[j + 1][rij] == speler) &&
+            (vulling[j + 2][rij] == speler) && 
+            (vulling[j + 3][rij] == speler)
+            ) 
+            {
+              uitslag = true;
+              lblHok[j * 5 - rij + 1].setBackground (geel);
+              lblHok[(j+1) * 5 - rij + 1].setBackground (geel);
+              lblHok[(j+2) * 5 - rij + 1].setBackground (geel);
+              lblHok[(j+3) * 5 - rij + 1].setBackground (geel);
+              break;
+            }
+       }
+    }
+
+    for (int kolom = 1;kolom<8;kolom++)
+       {
+         for (int j = 1;j<3;j++)
+         {
+            if (
+               (vulling[kolom][j] == speler) &&
+               (vulling[kolom + 1][j + 1] == speler) &&
+               (vulling[kolom + 2][j + 2] == speler) && 
+               (vulling[kolom + 3][j + 3] == speler)
+               ) 
+               {
+                 uitslag = true;
+                 lblHok[kolom  * 5 - j + 1].setBackground (geel);
+                 lblHok[(kolom+1) * 5 - j].setBackground (geel);
+                 lblHok[(kolom+2) * 5 - j - 1].setBackground (geel);
+                 lblHok[(kolom+3) * 5 - j - 2].setBackground (geel);
+                 break;
+               }
+            }
+        }
+
+for (int kolom = 1;kolom<8;kolom++)
+{
+   for (int j = 4;j<6;j++)
+   {
+   if (
+   (vulling[kolom][j] == speler) &&
+   (vulling[kolom + 1][j - 1] == speler) &&
+   (vulling[kolom + 2][j - 2] == speler) && 
+   (vulling[kolom + 3][j - 3] == speler)
+   ) 
+      {
+         uitslag = true;
+         lblHok[kolom  * 5 - j + 1].setBackground (geel);
+         lblHok[(kolom+1) * 5 - j + 2].setBackground (geel);
+         lblHok[(kolom+2) * 5 - j + 3].setBackground (geel);
+         lblHok[(kolom+3) * 5 - j + 4].setBackground (geel);
+         break;
+      }
+   }
+}
+return uitslag;
+}
+
+void btnGooi_Action(int i)
+{
+   for (int j=1;j<6;j++)
+   {
+      int g=vulling[i][j];
+      if (g==0)
+      {
+         lblHok[i*5-j+1].setText(teken[speler]);
+         vulling[i][j]=speler;
+         aantalkeergegooid++;
+         lblBeurt.setText(teken[speler+1]+" is aan de beurt");
+         boolean uitslag=controleer();
+         if (uitslag==true)
+         {
+            lblBeurt.setText(teken[speler]+" heeft gewonnen!");
+            if (speler==1)
+            {
+               aantalwinstx++;
+               lblAantalx.setText("Winst voor X: "+aantalwinstx);
+            }
+            else
+            {
+               aantalwinsto++;
+               lblAantalo.setText("Winst voor O: "+aantalwinsto);
+            }
+            btnNieuwspel.setVisible(true);
+            for (int k=1;k<11;k++)
+            {
+               btnGooi[k].setEnabled(false);
+            }
+            break;
+         }
+         else
+         {
+            speler=speler+1;
+            if (speler==3) {speler=1;}
+            if (aantalkeergegooid==50)
+            {
+               lblBeurt.setText("Geen van beiden heeft gewonnen!");
+               btnNieuwspel.setVisible(true);
+            }
+            break;
+         }
+      }
+    }
+  }
+
+/*
+public static void main (String[] args) {
+	vierOpEenRijSpel test = new vierOpEenRijSpel();
+	
+	test.setVisible(true);
+	}
+	*/
+}
