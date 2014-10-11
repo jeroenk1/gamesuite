@@ -1,0 +1,25 @@
+package gamesuite;
+
+public class Speler {
+
+	/**
+	 * Klasse Speler bevat alle benodigde informatie over spelers en savegames.
+	 * @author Hedde
+	 * 	...?
+	*/
+	
+	
+	//attributen
+	private static String naamSpeler;
+	private static int highScore;
+	private static int scoreDammen;
+	private static int scoreBlackjack;
+	private static int scoreMemory;
+	private static int scoreVierOpEenRij;
+	
+	
+	private static int[] voorkeurInstellingen;
+	
+	
+	
+}
