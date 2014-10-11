@@ -1,14 +1,10 @@
-package spellen;
+package vieropeenrij;
 
 import java.awt.*; 
 import java.applet.*; 
 import java.awt.event.*; 
 import gamesuite.Spel;
 /*
- * geleend van: http://lcinformatica.amsterdams.info/klas6/h18/h18_6.htm
- * applet --> standalone application: http://www.woodger.ca/jv_appst.htm
- * 
- * public class vierOpEenRijSpel extends Applet implements ActionListener 
 */
 
 public class vierOpEenRijSpel extends Applet implements ActionListener 
@@ -18,9 +14,15 @@ public class vierOpEenRijSpel extends Applet implements ActionListener
 	 */
 	private static final long serialVersionUID = 1L;
 	
-Label lblBeurt;
+	
+	
+	
+	
+	
+  Label lblBeurt;
   Label lblAantalx;
   Label lblAantalo;
+  Button btnEindespel;
   Button btnNieuwspel;
   Label lblHok[] = new Label[51];
   Button btnGooi[] = new Button[11];
@@ -50,6 +52,7 @@ Label lblBeurt;
     };
     setLayout(null);
     setSize(440,275);
+    //setSize(800,600);
     setBackground(new Color(50,200,200));
     lblBeurt = new Label("X is aan de beurt!",Label.CENTER);
     lblBeurt.setBounds(10,10,140,20);
@@ -75,6 +78,8 @@ Label lblBeurt;
     btnNieuwspel.setBackground(new Color(150,150,150));
     btnNieuwspel.setVisible(false);
     add(btnNieuwspel);
+
+    
     int x=10;
     int y=80;
     int k=0;
@@ -100,6 +105,10 @@ Label lblBeurt;
       btnGooi[i].setBackground(new Color(150,150,150));
       add(btnGooi[i]);
     } 
+    
+
+ 
+ 
 
   btnNieuwspel.addActionListener(this);
   for (int i=1;i<11;i++)
@@ -115,10 +124,13 @@ Label lblBeurt;
        {
          if (e.getSource() == btnGooi[i]) btnGooi_Action(i);
        }
+ 
     }
 
   void btnNieuwspel_Action()
   {
+	 System.out.println("Gedrukt op nieuw spel knop, check waarden");
+	 
      aantalkeergegooid=0;
      speler=speler+1;
      if (speler==3) speler=1;
@@ -165,6 +177,9 @@ Label lblBeurt;
                lblHok[kolom  * 5 - j].setBackground (geel);
                lblHok[kolom  * 5 - j - 1].setBackground (geel);
                lblHok[kolom  * 5 - j - 2].setBackground (geel);
+               
+               System.out.println("Vier op een rij voor speler" + speler + "!, check waarden");
+               
                break;
             }
        }
@@ -186,6 +201,9 @@ Label lblBeurt;
               lblHok[(j+1) * 5 - rij + 1].setBackground (geel);
               lblHok[(j+2) * 5 - rij + 1].setBackground (geel);
               lblHok[(j+3) * 5 - rij + 1].setBackground (geel);
+              
+              System.out.println("Vier op een rij voor speler " + speler + "!, check waarden/highscores");
+              
               break;
             }
        }
@@ -207,6 +225,9 @@ Label lblBeurt;
                  lblHok[(kolom+1) * 5 - j].setBackground (geel);
                  lblHok[(kolom+2) * 5 - j - 1].setBackground (geel);
                  lblHok[(kolom+3) * 5 - j - 2].setBackground (geel);
+                 
+                 System.out.println("Vier op een rij voor speler " + speler + "!, check waarden/highscores");
+                 
                  break;
                }
             }
@@ -228,6 +249,9 @@ for (int kolom = 1;kolom<8;kolom++)
          lblHok[(kolom+1) * 5 - j + 2].setBackground (geel);
          lblHok[(kolom+2) * 5 - j + 3].setBackground (geel);
          lblHok[(kolom+3) * 5 - j + 4].setBackground (geel);
+         
+         System.out.println("Vier op een rij voor speler " + speler + "!, check waarden/highscores");
+         
          break;
       }
    }
@@ -282,11 +306,11 @@ void btnGooi_Action(int i)
     }
   }
 
-/*
+
 public static void main (String[] args) {
 	vierOpEenRijSpel test = new vierOpEenRijSpel();
 	
 	test.setVisible(true);
 	}
-	*/
+	
 }
