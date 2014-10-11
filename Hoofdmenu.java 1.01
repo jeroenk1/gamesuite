@@ -1,10 +1,19 @@
 package gamesuite;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Event;
 import java.awt.BorderLayout;
+import java.awt.Frame;
+
+import javax.swing.JInternalFrame;
+import javax.swing.JDesktopPane;
+
+import java.awt.event.*;
+import java.awt.*;
+
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.KeyStroke;
@@ -19,7 +28,8 @@ import javax.swing.JDialog;
 import java.awt.Dimension;
 import javax.swing.JButton;
 
-import spellen.vierOpEenRijSpel;
+import vieropeenrij.VierOpEenRijSpelHedde;
+import vieropeenrij.vierOpEenRijSpel;
 
 import java.awt.Rectangle;
 import gamesuite.Spel;
@@ -51,6 +61,9 @@ public class Hoofdmenu {
 	private JButton vierOpEenRijKnop = null;
 	private JLabel highscoreLabel = null;
 	private JButton voegNieuwSpelToeKnop = null;
+	private JInternalFrame InternalFrame = null;
+	private JDesktopPane jDesktopPane = null;
+	
 	
 	
 	
@@ -62,11 +75,24 @@ public class Hoofdmenu {
 	// eigen private methoden:
 	
 	private void VierOpEenRijKnopAction(){
+		//http://docs.oracle.com/javase/7/docs/api/javax/swing/JInternalFrame.html
 		
-		//hier moet nog Spel[waar zit vier op een rij].start() methode komen, nu:
+		// die frames mogen wel in één methode later voor elk spel
 		
-		vierOpEenRijSpel test = new vierOpEenRijSpel();
-		test.setVisible(true);
+		JInternalFrame InternalFrame = new JInternalFrame("Frame voor spellen", false, true, true);
+		//Frame nieuwFrame = new Frame("Speel vier op een rij");
+		vierOpEenRijSpel nieuw = new vierOpEenRijSpel();
+		nieuw.init();
+		//setSize moet eigenlijk getSize van de desktoppane worden denk ik
+		InternalFrame.setSize(800, 600);
+		// hier gaat ook iets mis: waarom geeft hij het spel niet weer in het midden?
+		InternalFrame.add(nieuw, BorderLayout.CENTER);
+		//wat doet deze precies?
+		InternalFrame.pack();
+		jDesktopPane.add(InternalFrame, BorderLayout.CENTER);
+		InternalFrame.setVisible(true);
+	
+		//jFrame.remove bij terugknop
 	}
 	
 	
@@ -166,18 +192,7 @@ public class Hoofdmenu {
 		return voegNieuwSpelToeKnop;
 	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				Hoofdmenu application = new Hoofdmenu();
-				application.getJFrame().setVisible(true);
-			}
-		});
-	}
+
 
 	/**
 	 * This method initializes jFrame
@@ -192,6 +207,7 @@ public class Hoofdmenu {
 			jFrame.setSize(800, 600);
 			jFrame.setContentPane(getJContentPane());
 			jFrame.setTitle("Application");
+			
 		}
 		return jFrame;
 	}
@@ -201,6 +217,11 @@ public class Hoofdmenu {
 	 * 
 	 * @return javax.swing.JPanel
 	 */
+	
+	//Verschillen contentpane en desktoppane?
+	//anders kunnen al deze elementen naar desktop:
+	
+	
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
 			highscoreLabel = new JLabel();
@@ -215,6 +236,7 @@ public class Hoofdmenu {
 			jContentPane.add(getVierOpEenRijKnop(), null);
 			jContentPane.add(highscoreLabel, null);
 			jContentPane.add(getVoegNieuwSpelToeKnop(), null);
+			jContentPane.add(getJDesktopPane(), null);
 		}
 		return jContentPane;
 	}
@@ -424,4 +446,47 @@ public class Hoofdmenu {
 		return saveMenuItem;
 	}
 
+
+
+
+
+
+/**
+	 * This method initializes jDesktopPane	
+	 * 	
+	 * @return javax.swing.JDesktopPane	
+	 */
+	private JDesktopPane getJDesktopPane() {
+		if (jDesktopPane == null) {
+			jDesktopPane = new JDesktopPane();
+			jDesktopPane.setBounds(new Rectangle(1, 0, 781, 537));
+			jDesktopPane.setBackground(Color.YELLOW);
+		}
+		return jDesktopPane;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+public static void main(String[] args) {
+	
+	//hoofdmenu starten
+	SwingUtilities.invokeLater(new Runnable() {
+		public void run() {
+			Hoofdmenu application = new Hoofdmenu();
+			application.getJFrame().setVisible(true);
+		}
+	});
+	
+	
+	
+}
 }
