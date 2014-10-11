@@ -5,7 +5,8 @@ import java.util.ArrayList;
 /**
  * Klasse spel regelt het spelverloop van het specifieke gekozen spel.
  * Spel is de overkoepelende klasse voor alle spel-instanties die algemene
- * attributen en methoden overerven.
+ * attributen en methoden overerven. Naast de domeinklasse is er voor elk
+ * spel een gui met vaste afmetingen die worden ingeladen in het hoofdmenu.
  * @author Hedde
  *
  */
@@ -33,15 +34,36 @@ public class Spel {
 	//public methoden 
 	
 	public void start() {
-		//spel starten, maar hoe
-		
+		//
+	}
+	
+	public void stop() {
+		System.exit(0);
+	}
+	
+	// spel opslaan, hier moet samenwerking met xml komen!
+	
+	public void slaOp(String speler, int ofintSpeler, String spel, int ofintStringSpel) {
+		//xml magic
+	}
+	
+	public void haalOp(String speler, int ofintSpeler, String spel, int ofintStringSpel) {
+		//xml magic
 	}
 	
 	public int getScore() {
 		return score;
 	}
 	
+	public int getHoogteSpel() {
+		return hoogteBord;
+	}
+	
+	public int getBreedeSpel() {
+		return breedteBord;
+	}
 	
 	
 }
+
 
